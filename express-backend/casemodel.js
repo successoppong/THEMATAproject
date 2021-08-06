@@ -7,6 +7,7 @@ const CaseSchema = new Schema({
     description: String,
     counseleeid: String,
     counselerid: String,
+    casedate: String,
     status: String
 });
 

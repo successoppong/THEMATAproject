@@ -28,9 +28,6 @@ router.post("/login", async (request,response) => {
 
         response.status(400).send({message:"User does not exist"})
     }
-
-
-
 })
 
 router.post('/signup', async (request,response) => {
@@ -91,7 +88,7 @@ router.post('/addcase', async (request,response) => {
     let responseData = {};
     try {
 
-        let newcase = new casemodel({title: title, description: description, counseleeid: counseleeid,counselerid:"", status:'Not Responded'})
+        let newcase = new casemodel({title: title, description: description, counseleeid: counseleeid,counselerid:"", casedate:new Date().toDateString(), status:'Not Responded'})
     
          responseData =  await newcase.save()
     } catch (error) {
@@ -99,6 +96,19 @@ router.post('/addcase', async (request,response) => {
     }
     
     response.status(200).send({success:true, message:`You have successfully added your case. A counsellor will be assigned to you soon.`})
+})
+
+
+router.post("/listcases", async (request,response) => {
+    const { counseleeid } = request.body
+
+    let responseData = await casemodel.find({ counseleeid: counseleeid })
+
+    if(responseData.length > 0){
+        response.status(200).send({success:true, data: responseData})
+    } else {
+        response.status(400).send({error: true, message:"No cases were found for you. Create one"})
+    }
 
 })
 
