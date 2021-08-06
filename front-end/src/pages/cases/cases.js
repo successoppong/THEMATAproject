@@ -14,7 +14,7 @@ const Cases = () => {
         name:'Your Cases',
         header: ['Case Title', 'Case', 'Date', 'Status'],
         fieldnames:[{n:'title',f:'t'},{n:'description',f:'t'},{n:'casedate',f:'t'},{n:'status',f:'t'}],
-        actions:[{fn:'view',path:'/app/dashboard/case/thread'}, {fn:'respond',path:''}]
+        actions:[{fn:'view',path:'/app/dashboard/case/thread'}, {fn:'respond',path:'/app/dashboard/case/thread'}]
     }
 
     useEffect(()=> {

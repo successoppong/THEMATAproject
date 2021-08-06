@@ -38,7 +38,7 @@ const DashboardLayout = (props) => {
                     <FontAwesomeIcon style={{ fontSize: "1rem", color: "#cbd5e0", marginRight: "1rem"}} icon={faSearch}/>
                     <FontAwesomeIcon style={{ fontSize: "1rem", color: "#cbd5e0", marginRight: "1rem"}} icon={faBell}/>
                     <div className={styles.vertical}></div>
-                    <h1>{location.state}</h1>
+                    <h1></h1>
                     <div className={styles.dropdown}>
                         <button className={styles.dropbtn}>
                             <FontAwesomeIcon style={{ fontSize: "1.5rem"}} icon={faUser} />{" "}

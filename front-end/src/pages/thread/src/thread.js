@@ -5,10 +5,9 @@ const Thread = () => {
     let location = useLocation();
 
     const { item } = location.state;
-    console.log(item)
 
     return(
-        <h1>Threads of {item.caseTitle}</h1>
+        <h1>Threads of { item.title}</h1>
     )
 }
 
