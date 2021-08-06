@@ -12,6 +12,9 @@ const SideNav = () => {
     const history = useHistory();
    
     const logout = () => {
+
+        localStorage.clear()
+        
         history.push("/")
     }
     const toggleSidebar = () => {

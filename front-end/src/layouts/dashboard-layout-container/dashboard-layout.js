@@ -12,8 +12,7 @@ import styles from './dashboard-layout.module.scss';
 const DashboardLayout = (props) => {
     // const [title,setTitle] = useState('Welcome Jones')
     let location = useLocation()
-
-    console.log(location.state)
+    
     const toggleSidebar = () => {
         let btn = document.querySelector("#menubtn_2")
         if(btn.classList.contains('active')){
@@ -34,7 +33,7 @@ const DashboardLayout = (props) => {
             <SideNav/>
             <nav className={"navbar"}>
                 <i className='bx bx-menu' id="menubtn_2" onClick={toggleSidebar}></i>
-                <h1>{`Welcome ${location.state}`}</h1>
+                <h1>{`Welcome`}</h1>
                 <div className={"navbar-right"}>
                     <FontAwesomeIcon style={{ fontSize: "1rem", color: "#cbd5e0", marginRight: "1rem"}} icon={faSearch}/>
                     <FontAwesomeIcon style={{ fontSize: "1rem", color: "#cbd5e0", marginRight: "1rem"}} icon={faBell}/>

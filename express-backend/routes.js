@@ -3,6 +3,7 @@ const express = require('express');
 
 const router = express.Router();
 const usermodel = require('./usermodel')
+const casemodel = require('./casemodel');
 const generateSecret = require('./util')
 
 
@@ -84,6 +85,22 @@ router.post('/counseleesignup', async (request,response) => {
 
 })
 
+router.post('/addcase', async (request,response) => {
+    const { title, description, counseleeid } = request.body
+
+    let responseData = {};
+    try {
+
+        let newcase = new casemodel({title: title, description: description, counseleeid: counseleeid,counselerid:"", status:'Not Responded'})
+    
+         responseData =  await newcase.save()
+    } catch (error) {
+        response.status(400).send({error:true, message: error});   
+    }
+    
+    response.status(200).send({success:true, message:`You have successfully added your case. A counsellor will be assigned to you soon.`})
+
+})
 
 
 module.exports = router
