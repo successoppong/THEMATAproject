@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const usermodel = require('./usermodel')
 const casemodel = require('./casemodel');
+const threadmodel = require('./threadmodel');
 const generateSecret = require('./util')
 
 
@@ -54,7 +55,7 @@ router.post("/counseleesignin", async (request,response) => {
     let responseData = await usermodel.findOne({ password: password })
 
     if(responseData){
-        response.status(200).send({success:true, message:"Login Successful", id: responseData['_id']})
+        response.status(200).send({success:true, message:"Login Successful", id: responseData['_id'], role: responseData['role']})
     } else {
 
         response.status(400).send({message:"User does not exist"})
@@ -85,12 +86,18 @@ router.post('/counseleesignup', async (request,response) => {
 router.post('/addcase', async (request,response) => {
     const { title, description, counseleeid } = request.body
 
-    let responseData = {};
+    
     try {
 
-        let newcase = new casemodel({title: title, description: description, counseleeid: counseleeid,counselerid:"", casedate:new Date().toDateString(), status:'Not Responded'})
+        let newCase = new casemodel({title: title, counseleeid: counseleeid,counselerid:"", casedate:new Date().toDateString(), status:'Not Responded', thread:[]});
     
-         responseData =  await newcase.save()
+        let newCaseResponseData =  await newCase.save()
+
+        let newThread = new threadmodel({caseid: newCaseResponseData['_id'], message: description, counseleeid: counseleeid,counselerid:"", threaddate:new Date().toLocaleDateString(), status:''});
+        
+        let newThreadResponseData = await newThread.save();
+
+
     } catch (error) {
         response.status(400).send({error:true, message: error});   
     }
@@ -98,16 +105,53 @@ router.post('/addcase', async (request,response) => {
     response.status(200).send({success:true, message:`You have successfully added your case. A counsellor will be assigned to you soon.`})
 })
 
+router.post('/addthread', async (request,response) => {
+    const { description, counseleeid, caseid, counselorid } = request.body
+
+    
+    try {
+
+        let newThread = new threadmodel({caseid: caseid, message: description, counseleeid: counseleeid,counselerid:counselorid, threaddate:new Date().toLocaleDateString(), status:''});
+        
+        let newThreadResponseData = await newThread.save();
+
+
+    } catch (error) {
+        response.status(400).send({error:true, message: error});   
+    }
+    
+    response.status(200).send({success:true, message:`You have successfully saved your reply.`})
+})
+
 
 router.post("/listcases", async (request,response) => {
     const { counseleeid } = request.body
 
-    let responseData = await casemodel.find({ counseleeid: counseleeid })
-
-    if(responseData.length > 0){
-        response.status(200).send({success:true, data: responseData})
+    let casesData = await casemodel.find({ counseleeid: counseleeid })
+    
+    if(casesData.length > 0){
+        for(let i=0;i<casesData.length;i++){
+            let responseThread = await threadmodel.find({ caseid: casesData[i]['_id'] })
+            casesData[i]['thread'] = JSON.stringify(responseThread)
+        }
+        response.status(200).send({success:true, data: casesData})
     } else {
         response.status(400).send({error: true, message:"No cases were found for you. Create one"})
+    }
+
+})
+
+
+router.post("/listthreads", async (request,response) => {
+    const { caseid } = request.body
+
+    let threads = await threadmodel.find({ caseid: caseid })
+    
+    if(threads.length > 0){
+
+        response.status(200).send({success:true, data: threads})
+    } else {
+        response.status(400).send({error: true, message:"No threads were found for your case. Add one"})
     }
 
 })

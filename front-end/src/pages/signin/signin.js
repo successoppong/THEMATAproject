@@ -38,7 +38,9 @@ const SignIn = () => {
         response = await response.json()
 
         if (response.success) {
+            console.log(response)
             localStorage.setItem('counseleeid', response.id)
+            localStorage.setItem('role', response.role)
             history.push({pathname:'/app/dashboard/home', state:response.id})
         }
         else {

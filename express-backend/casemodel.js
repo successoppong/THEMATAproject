@@ -8,7 +8,8 @@ const CaseSchema = new Schema({
     counseleeid: String,
     counselerid: String,
     casedate: String,
-    status: String
+    status: String,
+    thread: [String]
 });
 
 const Case = mongoose.model('Case',CaseSchema);
