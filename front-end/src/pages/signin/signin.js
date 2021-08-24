@@ -41,7 +41,7 @@ const SignIn = () => {
             console.log(response)
             localStorage.setItem('counseleeid', response.id)
             localStorage.setItem('role', response.role)
-            history.push({pathname:'/app/dashboard/home', state:response.id})
+            history.push({pathname:'/app/dashboard/cases', state:response.id})
         }
         else {
             setMessage(response.message)
