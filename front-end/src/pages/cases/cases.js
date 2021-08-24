@@ -11,7 +11,7 @@ const Cases = () => {
 
 
     const initConfig={
-        name:'Your Cases',
+        name:'My Cases',
         header: ['Case Title', 'Date', 'Status'],
         fieldnames:[{n:'title',f:'t'},{n:'casedate',f:'t'},{n:'status',f:'t'}],
         actions:[{fn:'view',path:'/app/dashboard/case/thread'}]

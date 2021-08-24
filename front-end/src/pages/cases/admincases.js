@@ -11,7 +11,7 @@ const AdminCases = () => {
 
 
     const initConfig={
-        name:'Your Cases',
+        name:'Cases',
         header: ['Case Title', 'Date', 'Counselor', 'Status'],
         fieldnames:[{n:'title',f:'t'},{n:'casedate',f:'t'},{n:'counselerid',f:'t'},{n:'status',f:'t'}],
         actions:[{fn:'assign',path:'/app/dashboard/users/assign'}]
