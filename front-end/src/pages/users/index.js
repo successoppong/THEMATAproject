@@ -1,5 +1,6 @@
 import Users from './users';
 import AddUser from './adduser';
+import Assign from './assign';
 
 
 
@@ -7,5 +8,6 @@ import AddUser from './adduser';
 
 export {
     Users,
+    Assign,
     AddUser
 }

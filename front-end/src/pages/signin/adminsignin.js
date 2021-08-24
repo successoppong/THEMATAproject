@@ -32,7 +32,7 @@ const AdminSignIn = () => {
 
         setisSubmitting(true)
 
-        let response = await fetch('http://localhost:5000/api/v1/signin',{ 
+        let response = await fetch('http://localhost:5000/api/v1/login',{ 
             method:'POST', 
             headers:{'Content-Type':'application/json'},
             body:JSON.stringify({email:email, password: password})
@@ -42,7 +42,11 @@ const AdminSignIn = () => {
         if (response.success) {
             localStorage.setItem('counseleeid', response.id)
             localStorage.setItem('role', response.role)
-            history.push({pathname:'/app/dashboard/home', state:response.id})
+            if(response.role === 'Admin'){
+                history.push({pathname:'/app/dashboard/admincases', state:response.id})
+            } else {
+                history.push({pathname:'/app/dashboard/counselorcases', state:response.id})
+            }
         }
         else {
             setMessage(response.message)
@@ -70,7 +74,6 @@ const AdminSignIn = () => {
                     styles={styles}
                     style={{marginBottom: '10px'}}
                     disabled={false}
-                    value={password}
                 />
                 <Field 
                     label={'Password'} 
@@ -88,9 +91,9 @@ const AdminSignIn = () => {
                 <br/>
                 {/* <Button btntype="btn-clear" btntext={'Log in with Google'} icon={<GoogleIcon/>}/> */}
                 {/* <p id={customStyles.createone}>Don't have a secret? <span onClick={goToSignUp}>CREATE ONE</span></p> */}
-                <Modal status={modalstate} onHide={onHide} title='Message' handleSubmit={''} submitting={""} fns={[]}>
+                {/* <Modal status={modalstate} onHide={onHide} title='Message' handleSubmit={''} submitting={""} fns={[]}>
                     { message.split('::')[0] } <h3>{ message.split('::')[1] }</h3>
-                </Modal>
+                </Modal> */}
             </div>
         </div>
     )

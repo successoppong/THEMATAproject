@@ -1,9 +1,9 @@
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { DataTable, Button, Spinner } from '../../components';
-import customStyles from './users.module.scss';
+import customStyles from './cases.module.scss';
 
-const Users = () => {
+const AdminCases = () => {
     const history = useHistory();
     const [data, setData] = useState([])
     const [isSubmitting, setisSubmitting] = useState(false)
@@ -11,10 +11,10 @@ const Users = () => {
 
 
     const initConfig={
-        name:'Users',
-        header: ['Email', 'Role'],
-        fieldnames:[{n:'email',f:'t'},{n:'role',f:'t'}],
-        actions:[]
+        name:'Your Cases',
+        header: ['Case Title', 'Date', 'Counselor', 'Status'],
+        fieldnames:[{n:'title',f:'t'},{n:'casedate',f:'t'},{n:'counselerid',f:'t'},{n:'status',f:'t'}],
+        actions:[{fn:'assign',path:'/app/dashboard/users/assign'}]
     }
 
     useEffect(()=> {
@@ -28,7 +28,7 @@ const Users = () => {
         
         let counseleeid = localStorage.getItem('counseleeid')
 
-        let response = await fetch('http://localhost:5000/api/v1/listusers',{ 
+        let response = await fetch('http://localhost:5000/api/v1/listadmincases',{ 
             method:'POST', 
             headers:{'Content-Type':'application/json'},
             body:JSON.stringify({})
@@ -45,13 +45,13 @@ const Users = () => {
 
     }
 
-    const goToAddUser = () => {
-        history.push('/app/dashboard/users/adduser')
+    const goToNewCase = () => {
+        history.push('/app/dashboard/cases/addcase')
     }
 
     return (
         <div className={customStyles.tickets}>
-            <Button btntype="btn" btntext={'Add User'} onClick={() => goToAddUser()} style={{width: '150px', marginLeft:'auto', marginBottom: '20px'}}/>
+            {/* <Button btntype="btn" btntext={'Create New Case'} onClick={() => goToNewCase()} style={{width: '150px', marginLeft:'auto', marginBottom: '20px'}}/> */}
             { data.length > 0 ? <DataTable config={initConfig} data={ data } /> : <h2>{ message }</h2> }
             { isSubmitting && <Spinner size="50px" color="#005087" /> }
         </div>
@@ -59,4 +59,4 @@ const Users = () => {
 }
 
 
-export default Users;
+export default AdminCases;

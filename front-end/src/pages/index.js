@@ -3,10 +3,10 @@ import AdminSignIn from './signin/adminsignin';
 import SignUp from './signup/signup';
 
 import { Dashboard } from './dashboard';
-import { Cases } from './cases';
+import { Cases, AdminCases, CounselorCases } from './cases';
 import { Addcase } from './addcase';
 import { Thread } from './thread';
-import { Users, AddUser } from './users';
+import { Users, Assign, AddUser } from './users';
 
 
 
@@ -19,8 +19,11 @@ export {
 
     Dashboard,
     Cases,
+    AdminCases,
+    CounselorCases,
     Addcase,
     Thread,
     Users,
+    Assign,
     AddUser
 }

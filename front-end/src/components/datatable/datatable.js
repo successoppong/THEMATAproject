@@ -48,7 +48,7 @@ const DataTable  = ({ config, data }) => {
                                         )
                                     })
                                 }
-                                <th className={styles.th}>Actions</th>
+                                {config.actions.length > 0 ? <th className={styles.th}>Actions</th> : ''}
                             </tr>
                         </thead>
                         <tbody className={styles.tbody}>

@@ -18,10 +18,10 @@ router.post("/login", async (request,response) => {
     const { email, password } = request.body
     // console.log(email);
     let responseData = await usermodel.findOne({email})
-    console.log(responseData);
+    
     if(responseData){
         if(password === responseData.password){
-            response.status(200).send({message:"Successful"})
+            response.status(200).send({success:true, message:"Login Successful", id: responseData['_id'], role: responseData['role']})
         } else {
             response.status(200).send({message:"wrong username or password"})
         }
@@ -48,15 +48,31 @@ router.post('/adduser', async (request,response) => {
 
 })
 
+router.post('/assign', async (request,response) => {
+    
+    const { email, caseid } = request.body
+
+    try {
+
+        let responseData = await usermodel.findOne({ email: email })  
+        let user =  await casemodel.updateOne({_id:caseid},{$set:{counselerid: responseData._id}}) 
+        
+        user.nModified ? response.status(200).send({success: true, message: "Update successful"}) : response.status(401).send({failure: true, message: "Update failed. Please try again."})
+    } catch (error) {
+        response.status(400).send({error:true, message: 'Update failed!. Please try again'})  
+    }
+    
+})
+
 router.post("/listusers", async (request,response) => {
     const { role } = request.body
 
-    let usersData = await usermodel.find({role})
+    let usersData = await usermodel.find({$or: [{ role: 'Admin'},{ role: 'Counselor'}]})
     
     if(usersData.length > 0){
         response.status(200).send({success:true, data: usersData})
     } else {
-        response.status(400).send({error: true, message:"No cases were found for you. Create one"})
+        response.status(400).send({error: true, message:"No users were found for you."})
     }
 
 })
@@ -137,6 +153,18 @@ router.post('/addthread', async (request,response) => {
     response.status(200).send({success:true, message:`You have successfully saved your reply.`})
 })
 
+router.post("/listadmincases", async (request,response) => {
+
+    let casesData = await casemodel.find({ })
+    
+    if(casesData.length > 0){
+
+        response.status(200).send({success:true, data: casesData})
+    } else {
+        response.status(400).send({error: true, message:"No cases were found for you."})
+    }
+
+})
 
 router.post("/listcases", async (request,response) => {
     const { counseleeid } = request.body
@@ -150,7 +178,24 @@ router.post("/listcases", async (request,response) => {
         }
         response.status(200).send({success:true, data: casesData})
     } else {
-        response.status(400).send({error: true, message:"No cases were found for you. Create one"})
+        response.status(400).send({error: true, message:"No cases were found for you."})
+    }
+
+})
+
+router.post("/listcounselorcases", async (request,response) => {
+    const { counselerid } = request.body
+
+    let casesData = await casemodel.find({ counselerid: counselerid })
+    
+    if(casesData.length > 0){
+        for(let i=0;i<casesData.length;i++){
+            let responseThread = await threadmodel.find({ caseid: casesData[i]['_id'] })
+            casesData[i]['thread'] = JSON.stringify(responseThread)
+        }
+        response.status(200).send({success:true, data: casesData})
+    } else {
+        response.status(400).send({error: true, message:"No cases were found for you."})
     }
 
 })

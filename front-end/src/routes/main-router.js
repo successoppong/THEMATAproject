@@ -17,8 +17,11 @@ const MainRouter = () => {
             <Route exact path="/app/dashboard/cases" component={DashboardLayout} />
             <Route exact path="/app/dashboard/case/thread" component={DashboardLayout} />
             <Route exact path="/app/dashboard/cases/addcase" component={DashboardLayout} />
+            <Route exact path="/app/dashboard/admincases" component={DashboardLayout} />
+            <Route exact path="/app/dashboard/counselorcases" component={DashboardLayout} />
             <Route exact path="/app/dashboard/users" component={DashboardLayout} />
             <Route exact path="/app/dashboard/users/adduser" component={DashboardLayout} />
+            <Route exact path="/app/dashboard/users/assign" component={DashboardLayout} />
             <Route exact path="/app/dashboard/settings" component={DashboardLayout} />
             <Route exact path="/app/dashboard/about" component={DashboardLayout} />
             <Route exact path="/app/dashboard/contact" component={DashboardLayout} />

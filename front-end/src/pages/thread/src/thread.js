@@ -104,11 +104,11 @@ const Thread = () => {
 
     return(
         <div className="container">
-            <h1>Threads of { item.title}</h1>
+            <h1>Threads for { item.title}</h1>
             <div className={customStyles["thread-container"]}>
                 {
                     threads.map((thread, index) => {
-                        return <div className={customStyles["message"]} key={`thread-${index}`}>
+                        return <div className={`${customStyles["message"]} ${thread.counseleeid ? customStyles["me"] : customStyles["counselor"]}`} key={`thread-${index}`}>
                             { thread.message}
                             
                             <div className={customStyles["thread-footer"]}>

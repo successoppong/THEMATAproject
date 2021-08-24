@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import { ReactComponent as Logo } from '../../asset/img/logo.svg';
 import SideNavItem from './sidenavitem';
@@ -10,7 +10,8 @@ import SideNavItem from './sidenavitem';
 
 const SideNav = () => {
     const history = useHistory();
-   
+    let role = localStorage.getItem('role')
+
     const logout = () => {
 
         localStorage.clear()
@@ -42,11 +43,19 @@ const SideNav = () => {
             </div>
             <ul className={"navList"}>
                 <SideNavItem path="/app/dashboard/home" linktext="Dashboard" icon={"bx bx-video"}/>
-                <SideNavItem path="/app/dashboard/cases" linktext="Cases" icon={"bx bxs-coupon"}/>
-                <SideNavItem path="/app/dashboard/users" linktext="Users" icon={"bx bx-money"}/>
-                <SideNavItem path="/app/dashboard/settings" linktext="Settings" icon={"bx bx-cog"}/>
-                <SideNavItem path="/app/dashboard/about" linktext="About" icon={"bx bx-user"}/>
-                <SideNavItem path="/app/dashboard/contact" linktext="Contact" icon={"bx bx-chat"}/>
+                {
+                    role === 'counselee'  ? 
+                        <SideNavItem path="/app/dashboard/cases" linktext="Cases" icon={"bx bxs-coupon"}/> : 
+                    role === 'Admin' ?
+                        <div> 
+                            <SideNavItem path="/app/dashboard/admincases" linktext="Cases" icon={"bx bxs-coupon"}/>
+                            {/* <SideNavItem path="/app/dashboard/settings" linktext="Settings" icon={"bx bx-cog"}/> */}
+                            {/* <SideNavItem path="/app/dashboard/about" linktext="About" icon={"bx bx-user"}/> */}
+                            <SideNavItem path="/app/dashboard/users" linktext="Users" icon={"bx bx-money"}/>
+                            {/* <SideNavItem path="/app/dashboard/contact" linktext="Contact" icon={"bx bx-chat"}/> */}
+                        </div> :
+                        <SideNavItem path="/app/dashboard/counselorcases" linktext="Cases" icon={"bx bxs-coupon"}/>
+                }
             </ul>
             <div className={"profileContent"}>
                 <div className={"profile"}>
