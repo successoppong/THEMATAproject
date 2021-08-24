@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 
-import { Addcase, Cases, Dashboard, Thread } from '../pages';
+import { Addcase, Cases, Dashboard, Thread, Users, AddUser } from '../pages';
 
 
 const DashboardRoutes = (props) => {
@@ -15,7 +15,8 @@ const DashboardRoutes = (props) => {
         <Route exact path="/app/dashboard/cases" component={Cases} {...props}/>
         <Route exact path="/app/dashboard/case/thread" component={Thread} {...props}/>
         <Route exact path="/app/dashboard/cases/addcase" component={Addcase} {...props}/>
-        <Route exact path="/app/dashboard/users" component={Cases} {...props}/>
+        <Route exact path="/app/dashboard/users" component={Users} {...props}/>
+        <Route exact path="/app/dashboard/users/adduser" component={AddUser} {...props}/>
         {/* <Route exact path="/app/dashboard/settings" component={Video} {...props}/> */}
         {/* <Route exact path="/app/dashboard/about" component={Video} {...props}/> */}
         {/* <Route exact path="/app/dashboard/contact" component={Video} {...props}/> */}

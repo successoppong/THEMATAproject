@@ -31,20 +31,33 @@ router.post("/login", async (request,response) => {
     }
 })
 
-router.post('/signup', async (request,response) => {
-    const { firstname, lastname, email,password } = request.body
-
-    const responseData = {};
+router.post('/adduser', async (request,response) => {
+    const { email, password, role } = request.body
+    let secret = generateSecret(10);
     try {
-        let newuser = new usermodel({firstname, lastname, email, password})
+
+        let newuser = new usermodel({firstname:'', lastname:'', email:email, password:password, role:role})
     
          responseData =  await newuser.save()
     } catch (error) {
-        response.status(400).send({message:error})
+        response.status(400).send({error:true, message: error})
         
     }
     
-    response.status(200).send({message:"you have successfully signed up. You can login now!!!", data: responseData})
+    response.status(200).send({success:true, message:`The user with email ${email} has been created.`})
+
+})
+
+router.post("/listusers", async (request,response) => {
+    const { role } = request.body
+
+    let usersData = await usermodel.find({role})
+    
+    if(usersData.length > 0){
+        response.status(200).send({success:true, data: usersData})
+    } else {
+        response.status(400).send({error: true, message:"No cases were found for you. Create one"})
+    }
 
 })
 
@@ -82,6 +95,7 @@ router.post('/counseleesignup', async (request,response) => {
                                                       for you to retrieve. Your Secret Key is :: ${secret}`})
 
 })
+
 
 router.post('/addcase', async (request,response) => {
     const { title, description, counseleeid } = request.body

@@ -73,7 +73,7 @@ const Thread = () => {
             counseleeid = localStorage.getItem('counseleeid')
 
         } else {
-            counselorid = localStorage.getItem('counselorid')
+            counselorid = localStorage.getItem('counseleeid')
         }
 
         let response = await fetch('http://localhost:5000/api/v1/addthread',{ 
